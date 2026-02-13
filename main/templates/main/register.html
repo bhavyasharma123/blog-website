@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-5">
+        <div class="card p-4 bg-white border-0 shadow-sm">
+            <h3 class="fw-bold text-primary mb-2 text-center">Join CORE</h3>
+            <p class="text-muted small mb-4 text-center">Create a regular user account</p>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger py-2 small border-0">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="POST">
+                {% csrf_token %}
+                <div class="text-start signup-form">
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger extra-small" style="font-size: 0.7rem;">
+                                    {{ field.errors|striptags }}
+                                </div>
+                            {% endif %}
+                            {% if field.help_text %}
+                                <div class="text-muted extra-small" style="font-size: 0.7rem;">
+                                    {{ field.help_text|safe }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold py-2 mt-3">Register Account</button>
+            </form>
+            
+            <p class="text-muted small mt-4 mb-0 text-center">Already a member? 
+                <a href="{% url 'login' %}" class="text-primary fw-bold text-decoration-none">Login here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Styling the Django fields to match the CORE look */
+    .signup-form input { 
+        width: 100%; 
+        padding: 10px 15px; 
+        border-radius: 10px; 
+        border: 1px solid #e2e8f0; 
+        background: #f8fafc;
+        display: block;
+    }
+    .signup-form ul { list-style: none; padding: 0; margin: 0; font-size: 0.7rem; color: #94a3b8; }
+</style>
+{% endblock %}
